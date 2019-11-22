@@ -11,8 +11,6 @@ class relatorioController extends controller {
             <?php
             exit;
         }
-
- 
     }
     
     public function gerarRelatorio(){
@@ -31,7 +29,6 @@ class relatorioController extends controller {
                 
         $o = new OrdemServico();
         $_SESSION['relatorioOrdemServico'] = $o->getRelatorio($equipeTecnica, $tecnico, $tipoManutencao, $equipamento, $dataInicial, $dataFinal);
-        
         $_SESSION['graficoTecnicos'] = array();
 
         foreach($_SESSION['relatorioOrdemServico'] as $tec){
@@ -39,7 +36,6 @@ class relatorioController extends controller {
         };
         
         $_SESSION['graficoTecnicos'] = array_count_values($_SESSION['graficoTecnicos']);
-
         $_SESSION['graficoQuantidadeOrdemServico'] = array();
 
         foreach($_SESSION['relatorioOrdemServico'] as $tec){
@@ -48,8 +44,7 @@ class relatorioController extends controller {
         
         $_SESSION['graficoQuantidadeOrdemServico'] = array_count_values($_SESSION['graficoQuantidadeOrdemServico']);
 
-        // print_r( $_SESSION['relatorioOrdemServico']);
-        // exit;
+
 		header('Location: '.BASE_URL.'relatorio/ordemServico');
     }
 
@@ -73,29 +68,14 @@ class relatorioController extends controller {
 
         if(!empty($_SESSION['relatorioOrdemServico'])){
             $dados['relatorio'] = $_SESSION['relatorioOrdemServico'];
-            //$_SESSION['relatorioOrdemServico'] = '';
         }
 
 
-        $this->loadTemplate('relatorioOrdemServico', $dados);
+        $this->loadTemplate('relatorio', $dados);
     }
 
     public function ultimasManutencoes(){
         $this->loadTemplate('relatorioUltimasManutencoes');
     }
-
-    public function downloadRelatorio(){
-       // $html = '<a> Oi </a>';
-        require 'C:\xampp\htdocs\SIMPEI\vendor\autoload.php';
-        $mpdf = new \Mpdf\Mpdf();
-        $mpdf->WriteHTML($_SESSION['teste']);
-        $mpdf->Output("teste.pdf", "D");
-    }
-
-    public function equipamentos(){
-        $this->loadTemplate('relatorioEquipamentos');
-    }
-
-
 
 }

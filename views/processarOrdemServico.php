@@ -61,11 +61,20 @@
           </div>
           <div class="form-group col-md-3">
             <label for="inputAddress2">Ação</label>
-            <select name="status" class="form-control">
-              <?php foreach ($viewData['acoes'] as $data) { ?>
-                <option><?php echo $data ?></option>
-              <?php } ?>
-            </select>
+            <?php if(empty($viewData['acoes'][0])) { ?>
+              <select name="status" class="form-control" disabled>
+                <option>Em processamento</option>
+              </select>
+            <?php } ?>
+            <?php if(!empty($viewData['acoes'][0])) {  ?>
+              <select name="status" class="form-control">
+                <?php foreach ($viewData['acoes'] as $data) { ?>
+                  <option><?php echo $data ?></option>
+                <?php } ?>
+              </select>
+              
+            <?php } ?>
+
           </div>
         </div>
 
@@ -80,12 +89,25 @@
           </div>
         <?php } ?>
 
+        <?php if(!empty($viewData['acoes'][0])) {  ?>
+          <div class="form-group col-md-2">
+            <label for="inputZip">Descrição</label>
+            <textarea name="descricao" cols="100" rows="5"></textarea>
+          </div>
+        <?php } ?>
 
-        <div class="form-group col-md-2">
-          <label for="inputZip">Descrição</label>
-          <textarea name="descricao" cols="100" rows="5"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <input type="text" class="form-control" name="periodoPreditiva" value="<?php echo $viewData['periodoPreditiva'] ?>" hidden>
+        <input type="text" class="form-control" name="periodoPreventiva" value="<?php echo $viewData['periodoPreventiva'] ?>" hidden>
+        <input type="text" class="form-control" name="idEquipamento" value="<?php echo $viewData['idEquipamento'] ?>" hidden>
+
+        <?php if($status != 'Em processamento'){ ?>
+          <div class="form-group col-md-2">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </div>
+        <?php } ?>
+        <?php print_r($viewData) ?>
+
+
       </form>
     </section>
     <!-- /.content -->

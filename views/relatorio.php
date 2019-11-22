@@ -91,9 +91,6 @@
             </div>
 
             <?php if(!empty($relatorio)) { ?>
-              <button type="submit" class="btn btn-success "><i class="fas fa-file-download"></i> Download Relatório</button>
-              <br>
-              <br>
 
               <div class="card">
                 <!-- /.card-header -->

@@ -98,6 +98,60 @@ class OrdemServico extends model {
 		}	
 	}
 
+	public function salvarProcessamentoPreditiva($idTecnico, $descricao, $idOrdemServico, $status, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $idEquipamento) {
+
+		$sql = $this->db->prepare(	"UPDATE ordem_servico SET idTecnico = :idTecnico, status = :status WHERE id = :idOrdemServico");
+		$sql->bindValue(":idTecnico", $idTecnico);
+		$sql->bindValue(":status", $status);
+		$sql->bindValue(":idOrdemServico", $idOrdemServico);
+
+		$sql->execute();
+
+		if(!empty($descricao)){
+			$sql = $this->db->prepare("INSERT INTO descricao SET descricao = :descricao, idUsuario = :idUsuario, idOrdemServico = :idOrdemServico, data = now()");
+			$sql->bindValue(":descricao", $descricao);
+			$sql->bindValue(":idUsuario", $_SESSION['cLogin']);
+			$sql->bindValue(":idOrdemServico", $idOrdemServico);
+			$sql->execute();
+		}
+				
+		$sql = $this->db->prepare(	"UPDATE equipamentos SET ultimaManutencaoPreditiva = :ultimaManutencaoPreditiva,
+								  	proximaManutencaoPreditiva = :proximaManutencaoPreditiva WHERE idEquipamento = :idEquipamento");
+		$sql->bindValue(":idEquipamento", $idEquipamento);
+		$sql->bindValue(":ultimaManutencaoPreditiva", $ultimaManutencaoPreditiva);
+		$sql->bindValue(":proximaManutencaoPreditiva", $proximaManutencaoPreditiva);
+		$sql->execute();
+
+		echo $proximaManutencaoPreditiva;
+		exit;
+	}
+
+	public function salvarProcessamentoPreventiva($idTecnico, $descricao, $idOrdemServico, $status, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva, $idEquipamento) {
+
+		$sql = $this->db->prepare(	"UPDATE ordem_servico SET idTecnico = :idTecnico, status = :status WHERE id = :idOrdemServico");
+		$sql->bindValue(":idTecnico", $idTecnico);
+		$sql->bindValue(":status", $status);
+		$sql->bindValue(":idOrdemServico", $idOrdemServico);
+
+		$sql->execute();
+
+		if(!empty($descricao)){
+			$sql = $this->db->prepare("INSERT INTO descricao SET descricao = :descricao, idUsuario = :idUsuario, idOrdemServico = :idOrdemServico, data = now()");
+			$sql->bindValue(":descricao", $descricao);
+			$sql->bindValue(":idUsuario", $_SESSION['cLogin']);
+			$sql->bindValue(":idOrdemServico", $idOrdemServico);
+			$sql->execute();
+		}
+				
+		$sql = $this->db->prepare(	"UPDATE equipamentos SET ultimaManutencaoPreventiva = :ultimaManutencaoPreventiva,
+								  	proximaManutencaoPreventiva = :proximaManutencaoPreventiva WHERE idEquipamento = :idEquipamento");
+		$sql->bindValue(":idEquipamento", $idEquipamento);
+		$sql->bindValue(":ultimaManutencaoPreventiva", $ultimaManutencaoPreventiva);
+		$sql->bindValue(":proximaManutencaoPreventiva", $proximaManutencaoPreventiva);
+		$sql->execute();
+
+	}
+
 	public function getRelatorio($equipeTecnica, $tecnico, $tipoManutencao, $equipamento, $dataInicial, $dataFinal){
 		
 		$aux = '';

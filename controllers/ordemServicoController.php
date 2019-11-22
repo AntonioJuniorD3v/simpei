@@ -87,13 +87,17 @@ class ordemServicoController extends controller {
 			}
 
 			$this->loadTemplateTecnico('processarOrdemServico', $dados);
+			
 		} else if($_SESSION['funcao'] == 1){
 			$id = $_POST['id'];
 			$os = new OrdemServico();
 			$dados = $os->getOrdemServicoById($id);
 			$dados['descricao'] = $os->getDescricaoById($id);
 
-			if($dados['usuario' == 1] && $dados['status'] == 'Em validação'){
+			// print_r($dados);
+			// exit;
+
+			if($dados['usuario' == 1 ]  && $dados['status'] == 'Em validação'){
 				$dados['acoes'] = array("Validado"); 
 			} else {
 				$dados['acoes'] = array(""); 
@@ -103,15 +107,39 @@ class ordemServicoController extends controller {
 		}
 	}
 
+	private function verificaProximaManutencao($periodo){
+		if($periodo == 'Semanal'){
+			return date('Y-m-d', strtotime("+7 days")); 
+		}
+		if($periodo == 'Quinzenal'){
+			return date('Y-m-d', strtotime("+15 days")); 
+		}
+		if($periodo == 'Mensal'){
+			return date('Y-m-d', strtotime("+30 days")); 
+		}
+		if($periodo == 'Trimestral'){
+			return date('Y-m-d', strtotime("+90 days")); 
+		}
+		if($periodo == 'Semestral'){
+			return date('Y-m-d', strtotime("+180 days")); 
+		}
+		if($periodo == 'Anual'){
+			return date('Y-m-d', strtotime("+365 days")); 
+		}
+	}
+
 	public function salvarProcessamento(){
 
 		$idTecnico = $_POST['idTecnico'];
 		$idOrdemServico = $_POST['idOrdemServico'];
 		$status = $_POST['status'];
 		$descricao = $_POST['descricao'];
+		$tipoManutencao = $_POST['tipoManutencao'];
+		$periodoPreditiva = $_POST['periodoPreditiva'];
+		$periodoPreventiva = $_POST['periodoPreventiva'];
+		$idEquipamento = $_POST['idEquipamento'];
 
 		switch($_POST['status']){
-
 			case 'Atender':
 				$status = 'Em processamento';
 				break;
@@ -123,9 +151,27 @@ class ordemServicoController extends controller {
 			break;
 		}
 
-
 		$os = new OrdemServico();
-		$os->salvarProcessamento($idTecnico, $descricao, $idOrdemServico, $status);
+
+
+		if($status == 'Validado' && $tipoManutencao == 'Preditiva'){
+			$ultimaManutencaoPreditiva = date('Y-m-d');
+			$proximaManutencaoPreditiva = $this->verificaProximaManutencao($periodoPreditiva);
+
+			$os->salvarProcessamentoPreditiva($idTecnico, $descricao, $idOrdemServico, $status, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $idEquipamento);
+		
+		} else if($status == 'Validado' && $tipoManutencao == 'Preventiva'){
+
+			$ultimaManutencaoPreventiva = date('Y-m-d');
+			$proximaManutencaoPreventiva = $this->verificaProximaManutencao($periodoPreventiva);
+
+			$os->salvarProcessamentoPreventiva($idTecnico, $descricao, $idOrdemServico, $status, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva, $idEquipamento);
+		
+		} else{
+			
+			$os->salvarProcessamento($idTecnico, $descricao, $idOrdemServico, $status);
+
+		}
 
 		header('Location: '.BASE_URL.'ordemServico/listaOrdemServico');
 
