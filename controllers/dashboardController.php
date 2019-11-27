@@ -25,8 +25,8 @@ class dashboardController extends controller {
         $o = new OrdemServico();
         $e = new Equipamentos();
 
-        $dados['ordemServicoAberta'] = $o->getOrdemServicoAberta();
-        $dados['ordemServicoEmValidacao'] = $o->getOrdemServicoEmValidacao();
+        $dados['ordemServicoAberta'] = $o->getTotalOrdemServicoEmAberto();
+        $dados['ordemServicoEmValidacao'] = $o->getTotalOrdemServicoEmValidacao();
         $dados['equipamentosEmManutencao'] = $e->getEquipamentosEmManutencao();
         $dados['equipamentosDesativado'] = $e->getEquipamentosDesativado();
         $dados['proximasManutencoesPreditivas'] = $e->getProximasManutencoesPreditivas();
@@ -43,7 +43,7 @@ class dashboardController extends controller {
 
         $arrayData = array_reverse($arrayData);
 
-        $dados['graficoOrdemServico'] = $o->getOrdemServicoUltimosSeteDias($arrayData[0], $arrayData[6]);
+        $dados['graficoOrdemServico'] = $o->getOrdensServicosUltimosSeteDias($arrayData[0], $arrayData[6]);
 
         $aux = array();
         foreach($dados['graficoOrdemServico'] as $key => $data){
@@ -78,6 +78,7 @@ class dashboardController extends controller {
 
         // exit;
 
+		$_SESSION['activeMenu'] = 'dashboard';
 
 		$this->loadTemplate('dashboard', $dados);
 	}

@@ -31,12 +31,12 @@
   <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/plugins/select2/select2.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/dist/css/adminlte.min.css">
-
-
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL ?>assets/css/style.css">
+
   <!-- daterange picker -->
   <link rel="stylesheet" href="<?php echo BASE_URL ?>plugins/daterangepicker/daterangepicker-bs3.css">
   <!-- iCheck for checkboxes and radio inputs -->
@@ -55,7 +55,8 @@
   <link href="https://fonts.googleapis.com/css?family=Acme|Baloo+Bhai|Candal|Squada+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/tokenfield-typeahead.css">
-
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 </head>
 
@@ -69,6 +70,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
       </ul> -->
+      <span style="font-size:17px; color: rgba(0,0,0,.5);">Usina Coruripe Açucar e Alcool S/A</span>
       <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
@@ -106,8 +108,8 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            <li class="nav-item has-treeview menu-open">
-              <a href="<?php echo BASE_URL ?>dashboard" class="nav-link active">
+            <li class="nav-item has-treeview ">
+              <a href="<?php echo BASE_URL ?>dashboard" class="nav-link <?php echo $_SESSION['activeMenu'] == 'dashboard' ?  'active' : ''; ?>">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
@@ -115,7 +117,7 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="<?php echo BASE_URL ?>equipamento" class="nav-link">
+              <a href="<?php echo BASE_URL ?>equipamento" class="nav-link <?php echo $_SESSION['activeMenu'] == 'equipamentos' ?  'active' : ''; ?>" >
                 <i class="nav-icon fas fa-copy"></i>
                 <p>
                   Equipamentos
@@ -123,7 +125,7 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
+              <a href="#" class="nav-link <?php echo $_SESSION['activeMenu'] == 'abrirOS' || $_SESSION['activeMenu'] == 'listarOS' ?  'active' : ''; ?>" >
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
                   Ordens de Serviço
@@ -131,22 +133,22 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
-                <li class="nav-item" style="margin-left: 5px;">
-                  <a href="<?php echo BASE_URL ?>ordemServico/AbrirOrdemDeServico" class="nav-link">
-                   <i class="fas fa-chevron-circle-right"></i>&nbsp;
+                <li class="nav-item" style="margin-left: 10px;">
+                  <a href="<?php echo BASE_URL ?>ordemServico/AbrirOrdemDeServico" class="nav-link <?php echo $_SESSION['activeMenu'] == 'abrirOS' ?  'active' : ''; ?>">
+                  <i class="far fa-circle fa-xs"></i>&nbsp;
                     <p>Abrir Ordem de Serviço</p>
                   </a>
                 </li>
-                <li class="nav-item" style="margin-left: 5px;">
-                  <a href="<?php echo BASE_URL ?>ordemServico/listaOrdemServico" class="nav-link">
-                   <i class="fas fa-chevron-circle-right"></i>&nbsp;
+                <li class="nav-item" style="margin-left: 10px;">
+                  <a href="<?php echo BASE_URL ?>ordemServico/listaOrdemServico" class="nav-link <?php echo $_SESSION['activeMenu'] == 'listarOS' ?  'active' : ''; ?>" >
+                  <i class="far fa-circle fa-xs"></i>&nbsp;
                     <p>Controle Ordens de Serviço</p>
                   </a>
                 </li>
               </ul>
             </li>
             <li class="nav-item has-treeview">
-                <a href="<?php echo BASE_URL ?>relatorio/ordemServico" class="nav-link">
+                <a href="<?php echo BASE_URL ?>relatorio/ordemServico" class="nav-link <?php echo $_SESSION['activeMenu'] == 'relatorios' ?  'active' : ''; ?>" >
                 <i class="nav-icon fas fa-chart-pie"></i>
                 <p>
                   Relatório
@@ -207,13 +209,20 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo BASE_URL ?>assets/dist/js/demo.js"></script>
 <script src="<?php echo BASE_URL ?>assets/js/script.js"></script>
-
 <!-- ChartJS 1.0.1 -->
 <script src="<?php echo BASE_URL ?>assets/plugins/chartjs-old/Chart.min.js"></script>
 <!-- FastClick -->
 <script src="<?php echo BASE_URL ?>assets/plugins/fastclick/fastclick.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+
+
 <!-- Page script -->
 <script>
   $(function () {
@@ -416,7 +425,43 @@
   $('#checklistPreventivaEditar').tokenfield();
 </script>
 
+<?php 
+  if(!empty($_SESSION['notificao'])){
+		?>
+      <script>
+        toastr.success('<?php echo $_SESSION['notificao'] ?>');
+      </script>
+    <?php
+    unset($_SESSION['notificao']); 
+  }
+?>
+<script>
 
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "language": {
+          "lengthMenu": "Mostrar _MENU_ itens por página",
+          "zeroRecords": "Nenhum equipamento encontrado!",
+          "info": "Página _PAGE_ de _PAGES_",
+          "infoEmpty": "",
+          "infoFiltered": ""
+        }
+      })
+});
+
+$(document).ready(function() {
+    $('#tabelaOrdemServico').DataTable( {
+        "language": {
+          "lengthMenu": "Mostrar _MENU_ itens por página",
+          "zeroRecords": "Nenhum equipamento encontrado!",
+          "info": "Página _PAGE_ de _PAGES_",
+          "infoEmpty": "",
+          "infoFiltered": ""
+        }
+      })
+});
+
+</script>
 </body>
 
 </html>

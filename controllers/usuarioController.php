@@ -14,10 +14,9 @@ class usuarioController extends controller {
 	}
 
 	function __construct(){
-		$this->isLogged();
+		//$this->isLogged();
 	}
 
-	
 	public function index() {
 		$this->isLogged();
 
@@ -26,15 +25,7 @@ class usuarioController extends controller {
             $dados = $u->getUsuarios();
             $this->loadTemplateTecnico('usuarios', $dados);
         }
-
     }
-
-    public function perfil() {
-
-		$this->loadTemplate('perfil');
-
-    }
-    
     
 	public function cadastrar()
 	{
@@ -42,6 +33,7 @@ class usuarioController extends controller {
         $usuario = $_POST['usuario'];
         $senha = md5($_POST['senha']);
         $matricula = $_POST['matricula'];
+
         if($_POST['funcao'] == 'Técnico'){
             $funcao = 0;
         } else{
@@ -49,11 +41,9 @@ class usuarioController extends controller {
         }
   
         $u = new Usuarios();
-
-        $u->addUsuario($nome, $usuario, $senha, $matricula, $funcao);
+        $u->cadastrar($nome, $usuario, $senha, $matricula, $funcao);
 
 		$this->index();
-
     }
 
     public function editar()
@@ -63,6 +53,7 @@ class usuarioController extends controller {
         $usuario = $_POST['usuario'];
         $senha = md5($_POST['senha']);
         $matricula = $_POST['matricula'];
+
 
         if($_POST['funcao'] == 'Técnico'){
             $funcao = 0;
@@ -76,13 +67,18 @@ class usuarioController extends controller {
             $estado = 1;
         }
 
+
 		$u = new Usuarios();
-		$u->editarUsuario($id, $nome, $usuario, $senha, $matricula, $funcao, $estado);
+		$u->editar($id, $nome, $usuario, $senha, $matricula, $funcao, $estado);
 
 		$this->index();
-	}
+    }
     
-    public function mudarSenha()
+    public function perfil() {
+		$this->loadTemplate('perfil');
+    }
+    
+    public function alterarSenha()
 	{
         $id = $_SESSION['cLogin'];
         $senhaAntiga = md5($_POST['senhaAntiga']);
@@ -93,7 +89,7 @@ class usuarioController extends controller {
         $senhaUsuario = $u->getUsuarioById($id);
 
         if($senhaAtual == $confirmarSenha && $senhaAntiga == $senhaUsuario['senha']){
-            $u->atualizarSenha($id, $senhaAtual);
+            $u->alterarSenha($id, $senhaAtual);
             ?>
                 <script>
                     alert('Senha atualizada com Sucesso!');
@@ -108,19 +104,16 @@ class usuarioController extends controller {
                 </script>
             <?php
         }
-
-
     }
     
     public function desativar()
 	{
 		if (isset($_POST['id'])) {
 			$u = new Usuarios();
-			$u->desativarUsuario($_POST['id']);
+			$u->desativar($_POST['id']);
         }
         
 		$this->index();
-
 	}
 
 }

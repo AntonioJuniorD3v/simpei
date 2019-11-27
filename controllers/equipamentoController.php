@@ -20,11 +20,10 @@ class equipamentoController extends controller
 
 	public function index()
 	{
-		
 		$e = new Equipamentos();
-
 		$dados = $e->getEquipamentos();
 
+		$_SESSION['activeMenu'] = 'equipamentos';
 		$this->loadTemplate('equipamentos', $dados);
 	}
 
@@ -44,46 +43,14 @@ class equipamentoController extends controller
 			$proximaManutencaoPreditiva = $this->verificaProximaManutencao($periodoPreditiva);
 			$ultimaManutencaoPreventiva = date('Y-m-d');
 			$proximaManutencaoPreventiva = $this->verificaProximaManutencao($periodoPreventiva);
-
 		
 			$e = new Equipamentos();
+			$e->cadastrar($nome, $modelo, $patrimonio, $estado, $periodoPreditiva, $periodoPreventiva, $checklistPreditiva, $checklistPreventiva, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva);
 
-			$e->addEquipamento($nome, $modelo, $patrimonio, $estado, $periodoPreditiva, $periodoPreventiva, $checklistPreditiva, $checklistPreventiva, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva);
+			$_SESSION['notificao'] = 'Equipamento cadastrado com sucesso';
 
 			header('Location: ' . BASE_URL . 'equipamento');
-			//$this->loadTemplate('equipamentos');
-
 		}
-	}
-
-	private function verificaProximaManutencao($periodo){
-		if($periodo == 'Semanal'){
-			return date('Y-m-d', strtotime("+7 days")); 
-		}
-		if($periodo == 'Quinzenal'){
-			return date('Y-m-d', strtotime("+15 days")); 
-		}
-		if($periodo == 'Mensal'){
-			return date('Y-m-d', strtotime("+30 days")); 
-		}
-		if($periodo == 'Trimestral'){
-			return date('Y-m-d', strtotime("+90 days")); 
-		}
-		if($periodo == 'Semestral'){
-			return date('Y-m-d', strtotime("+180 days")); 
-		}
-		if($periodo == 'Anual'){
-			return date('Y-m-d', strtotime("+365 days")); 
-		}
-	}
-
-	public function desativar()
-	{
-		if (isset($_POST['id'])) {
-			$e = new Equipamentos();
-			$e->desativarEquipamento($_POST['id']);
-		}
-		header('Location: ' . BASE_URL . 'equipamento');
 	}
 
 	public function editar()
@@ -103,8 +70,7 @@ class equipamentoController extends controller
 		$proximaManutencaoPreventiva = $this->verificaProximaManutencao($periodoPreventiva);
 
 		$e = new Equipamentos();
-
-		$e->editarEquipamento($id, $nome, $modelo, $patrimonio, $estado, $periodoPreditiva, $periodoPreventiva, $checklistPreditiva, $checklistPreventiva, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva);
+		$e->editar($id, $nome, $modelo, $patrimonio, $estado, $periodoPreditiva, $periodoPreventiva, $checklistPreditiva, $checklistPreventiva, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva);
 
 		header('Location: ' . BASE_URL . 'equipamento');
 	}
@@ -135,17 +101,49 @@ class equipamentoController extends controller
 		echo json_encode($array);
 	}
 
+	public function desativar()
+	{
+		if (isset($_POST['id'])) {
+			$e = new Equipamentos();
+			$e->desativar($_POST['id']);
+		}
+		header('Location: ' . BASE_URL . 'equipamento');
+	}
+
+
 	public function detalhesEquipamento(){
 		$idEquipamento = $_GET['id'];
 		$o = new OrdemServico();
+		$d = new Descricao();
+
 		$dados = $o->getDetalhesOdensServicoEquipamento($idEquipamento);
 		
 		foreach($dados as $key => $dado){
-			$dados[$key]['descricao'] = $o->getDescricaoById($dados[$key][0]);
+			$dados[$key]['descricao'] = $d->getDescricaoById($dados[$key][0]);
 		}
-		// print_r($dados);
-		// exit;
 
 		$this->loadTemplate('detalhesEquipamento', $dados);
 	}
+
+	private function verificaProximaManutencao($periodo){
+		if($periodo == 'Semanal'){
+			return date('Y-m-d', strtotime("+7 days")); 
+		}
+		if($periodo == 'Quinzenal'){
+			return date('Y-m-d', strtotime("+15 days")); 
+		}
+		if($periodo == 'Mensal'){
+			return date('Y-m-d', strtotime("+30 days")); 
+		}
+		if($periodo == 'Trimestral'){
+			return date('Y-m-d', strtotime("+90 days")); 
+		}
+		if($periodo == 'Semestral'){
+			return date('Y-m-d', strtotime("+180 days")); 
+		}
+		if($periodo == 'Anual'){
+			return date('Y-m-d', strtotime("+365 days")); 
+		}
+	}
+	
 }

@@ -19,7 +19,7 @@
 
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="<?php echo BASE_URL ?>usuario/mudarSenha" method="POST">
+              <form role="form" action="<?php echo BASE_URL ?>usuario/alterarSenha" method="POST">
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Senha Atual</label>

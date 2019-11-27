@@ -1,0 +1,13 @@
+/* Seleciona conteudo que será impresso */
+@media print {
+    #noPrint {
+      visibility: hidden;
+      display: none;
+    }
+
+    #printable {
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
+  }

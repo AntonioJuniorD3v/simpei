@@ -78,20 +78,40 @@
           </div>
         </div>
 
-        <?php foreach($viewData['descricao'] as $d){ ?>
-          <div class="card col-md-8" >
-            <div class="card-header">
-             <?php echo $d['nome'].' - '.$d['data'] ?>
+        <div class="col-md-12">
+            <!-- Box Comment -->
+            <label for="inputZip">Comentários</label>
+            <div class="card card-widget">
+              
+              <!-- /.card-header -->
+         
+              <!-- /.card-body -->
+
+              <div class="card-footer card-comments">
+              <?php foreach($viewData['descricao'] as $d){ ?>
+
+                  <div class="card-comment">
+                    <!-- User image -->
+
+                    <div class="comment-text m-0">
+                      <span class="username">
+                      <?php echo $d['nome'] ?>
+                        <span class="text-muted float-right"><?php echo $d['data'] ?></span>
+                      </span><!-- /.username -->
+                      <?php echo $d['descricao'] ?>
+                    </div>
+                    <!-- /.comment-text -->
+                  </div>
+                <?php } ?>
+              </div>
+
             </div>
-            <div class="card-body">
-              <p class="card-text"><?php print_r($d['descricao']) ?></p>
-            </div>
+            <!-- /.card -->
           </div>
-        <?php } ?>
 
         <?php if(!empty($viewData['acoes'][0])) {  ?>
           <div class="form-group col-md-2">
-            <label for="inputZip">Descrição</label>
+            <label for="inputZip">Adicionar comentário:</label>
             <textarea name="descricao" cols="100" rows="5"></textarea>
           </div>
         <?php } ?>
@@ -105,7 +125,6 @@
             <button type="submit" class="btn btn-primary">Salvar</button>
           </div>
         <?php } ?>
-        <?php print_r($viewData) ?>
 
 
       </form>

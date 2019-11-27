@@ -55,6 +55,9 @@
   <link href="https://fonts.googleapis.com/css?family=Acme|Baloo+Bhai|Candal|Squada+One&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/css/tokenfield-typeahead.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
 </head>
@@ -190,6 +193,10 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.2/dist/Chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
 <!-- Page script -->
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+
 <script>
   $(function () {
     //Initialize Select2 Elements
@@ -391,6 +398,19 @@
   $('#checklistPreventivaEditar').tokenfield();
 </script>
 
+<script>
+  $(document).ready(function() {
+    $('#tabelaUsuarios').DataTable( {
+        "language": {
+          "lengthMenu": "Mostrar _MENU_ itens por página",
+          "zeroRecords": "Nenhum equipamento encontrado!",
+          "info": "Página _PAGE_ de _PAGES_",
+          "infoEmpty": "",
+          "infoFiltered": ""
+        }
+      })
+  });
+</script>
 
 </body>
 

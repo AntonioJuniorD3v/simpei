@@ -22,7 +22,7 @@
                 <h4>Filtro <i class="fas fa-filter"></i></h4>
               </div>
 
-              <div class="card-body row">
+              <div class="card-body row" id="noPrint">
                 
                 <form id="formRelatorioOrdemServico" action="http://localhost/simpei/relatorio/gerarRelatorio" method="POST" class="col-12 row">
   

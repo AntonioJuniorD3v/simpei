@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
 	<link href="https://fonts.googleapis.com/css?family=Acme|Baloo+Bhai|Candal|Squada+One&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 
@@ -99,6 +100,20 @@
 
 	<!-- PAGE SCRIPTS -->
 	<script src="<?php echo BASE_URL ?>assets/js/pages/dashboard2.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+	
+	<?php 
+	if(!empty($_SESSION['notificao'])){
+			?>
+		<script>
+			toastr.error('<?php echo $_SESSION['notificao'] ?>');
+		</script>
+		<?php
+		unset($_SESSION['notificao']); 
+	}
+	?>
 </body>
 
 </html>

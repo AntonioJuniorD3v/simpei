@@ -33,34 +33,28 @@
           </div>
         </div>
         <div class="form-row">
-
           <div class="form-group col-md-3">
             <label for="inputAddress">Tipo da Manutenção</label>
-            <select name="tipoManutencao" class="form-control" required>
-            <option selected></option>
-              <option>Preventiva</option>
-              <option>Preditiva</option>
-              <option>Corretiva</option>
-            </select>
+            <input type="text" class="form-control" id="tipoManutencao" name="tipoManutencao" value="Corretiva" readonly>
           </div>
+
           <div class="form-group col-md-3">
             <label for="inputAddress2">Estado do Equipamento</label>
             <select name="estadoEquipamento" class="form-control" required>
               <option selected></option>
               <option >Ativo</option>
               <option>Parado</option>
-              <option>Descartado</option>
             </select>
           </div>
           <div class="form-group col-md-2">
             <label for="inputState">Prioridade</label>
             <select name="prioridade" id="selectPrioridade" class="form-control" required>
               <option selected></option>
-              <option >Muito Baixa</option>
-              <option >Baixa</option>
-              <option >Média</option>
-              <option >Alta</option>
-              <option >Muito Alta</option>
+              <option value="Muito Baixa" >Muito Baixa (30 dias)</option>
+              <option value="Baixa" >Baixa (15 dias)</option>
+              <option value="Média">Média (7 dias)</option>
+              <option value="Alta">Alta (3 dias)</option>
+              <option value="Muito Alta">Muito Alta (1 dia)</option>
             </select>
           </div>
           <div class="form-group col-md-2">

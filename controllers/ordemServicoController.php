@@ -17,27 +17,6 @@ class ordemServicoController extends controller {
 		$this->loadTemplate('equipamentos');
 	}
 
-	public function listaOrdemServico() {
-
-		if($_SESSION['funcao'] == 0){
-
-			$os = new OrdemServico();
-	
-			$dados = $os->getAllOrdemServico();
-	
-			$this->loadTemplateTecnico('listaOrdensDeServico', $dados);
-		} else if($_SESSION['funcao'] == 1){
-			$os = new OrdemServico();
-	
-			$dados = $os->getAllOrdemServico();
-
-			// print_r($dados);
-			// exit;
-
-			$this->loadTemplate('listaOrdensDeServico', $dados);
-		}
-	}
-
 	public function abrirOrdemDeServico() {
 		$this->isLogged();
 
@@ -48,8 +27,32 @@ class ordemServicoController extends controller {
 		$u = new Setor();
 
 		$dados['setor'] = $u->getSetor();
+
+		$_SESSION['activeMenu'] = 'abrirOS';
 		$this->loadTemplate('abrirOrdemDeServico', $dados);
 	}
+
+	public function listaOrdemServico() {
+
+		$_SESSION['activeMenu'] = 'listarOS';
+
+		if($_SESSION['funcao'] == 0){
+
+			$os = new OrdemServico();
+			$dados = $os->getOrdensServico();
+	
+			$this->loadTemplateTecnico('listaOrdensDeServico', $dados);
+
+		} else if($_SESSION['funcao'] == 1){
+
+			$os = new OrdemServico();
+			$dados = $os->getOrdensServico();
+
+			$this->loadTemplate('listaOrdensDeServico', $dados);
+		}
+	}
+
+
 
 	public function abrir(){
 		$this->isLogged();
@@ -65,20 +68,22 @@ class ordemServicoController extends controller {
 		$dataFinal = $_POST['dataFinal'];
 		$descricao = $_POST['descricao'];
 
-		$os->salvar($resumo, $idEquipamento, $tipoManutencao, $estadoEquipamento, $prioridade, $idSetor, $dataFinal, $descricao);
+		$os->criar($resumo, $idEquipamento, $tipoManutencao, $estadoEquipamento, $prioridade, $idSetor, $dataFinal, $descricao);
 
 		header('Location: '.BASE_URL.'ordemServico/abrirOrdemDeServico');
 
 	}
 
 	public function detalhesOrdemServico(){
-		if($_SESSION['funcao'] == 0){
-			$id = $_POST['id'];
-			$os = new OrdemServico();
-			$dados = $os->getOrdemServicoById($id);
+		$os = new OrdemServico();
+		$d = new Descricao();
 
+		if($_SESSION['funcao'] == 0){
+
+			$id = $_POST['id'];
 			$dados = $os->getOrdemServicoById($id);
-			$dados['descricao'] = $os->getDescricaoById($id);
+			$dados = $os->getOrdemServicoById($id);
+			$dados['descricao'] = $d->getDescricaoById($id);
 
 			if($dados['usuario' == 0] && $dados['status'] == 'Nova'){
 				$dados['acoes'] = array("Atender", "Solicitar Cancelamento"); 
@@ -90,9 +95,8 @@ class ordemServicoController extends controller {
 			
 		} else if($_SESSION['funcao'] == 1){
 			$id = $_POST['id'];
-			$os = new OrdemServico();
 			$dados = $os->getOrdemServicoById($id);
-			$dados['descricao'] = $os->getDescricaoById($id);
+			$dados['descricao'] = $d->getDescricaoById($id);
 
 			// print_r($dados);
 			// exit;

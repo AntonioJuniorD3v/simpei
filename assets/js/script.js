@@ -87,15 +87,15 @@ $(function(){
 				var html = '';
 
 				for(var i in json) {
-                    //html += '<li><a href="usuario.php?id='+json[i].id+'">'+json[i].nome+'</a></li>';
                     html += '<tr><td>'+json[i].id+'</td><td><a href="equipamento?id=json[i].id" >'+json[i].nome+'</a></td><td>'+json[i].modelo+'</td><td>'+json[i].proximaManutencao+'</td><td><div class=""><span class="badge bg-'+json[i].color+'">'+json[i].estado+'</span></div></td><td><div class="btn-group" role="group" aria-label="Exemplo básico"><button type="button" class="btn  btn-primary btn-sm" data-toggle="modal" data-target="#modalEditar" data-id="'+ json[i].id+' " data-nome="'+ json[i].nome+'" data-modelo="'+ json[i].modelo+'" data-patrimonio="'+ json[i].patrimonio+'" data-estado="'+ json[i].estado+'">Editar</button>&nbsp;&nbsp;<button type="submit" class="btn btn-danger btn-sm" data-id="'+ json[i].id+'" data-toggle="modal" data-target="#modalDesativar">Desativar</button></div></td></tr>';
                 }
 
 				$('#resultado').html(html);
 			}
-		});
+        });
+        
+        console.log(html);
 	});
-
 });
 
 //Autocomplete página Ordem de Serviço
@@ -195,7 +195,6 @@ $('#formRelatorioOrdemServicoo').on('submit', function(e) {
     }     
     });
 
-    $("#tableRelatorioOrdemServico").load(location.href + "#tableRelatorioOrdemServico");
-   
-  
+    $("#tableRelatorioOrdemServico").load(location.href + "#tableRelatorioOrdemServico");  
   });
+

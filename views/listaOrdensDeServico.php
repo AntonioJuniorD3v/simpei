@@ -16,13 +16,10 @@
     <!-- Main content -->
     <section class="content">
 
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Controle de Ordens de Serviço</h3>
-        </div>
+      <div class="card" style="padding:10px;">
         <!-- /.card-header -->
         <div class="card-body p-0">
-          <table class="table table-striped">
+          <table class="table table-striped" id="tabelaOrdemServico">
             <thead>
               <tr>
                 <th style="width: 10px">cód.</th>

@@ -21,19 +21,20 @@ class loginController extends controller {
             $senha = $_POST['senha'];
     
             if($u->login($usuario, $senha)) {
-                if($_SESSION['funcao'] == 0){
-                    header('Location: ' . BASE_URL . 'ordemServico/listaOrdemServico');          
-                } else if($_SESSION['funcao'] == 1){
-                    header('Location: ' . BASE_URL . 'dashboard');
-                } else if($_SESSION['funcao'] == 2){
-                    header('Location: ' . BASE_URL . 'usuario');
+                if($_SESSION['ativo'] == 0){
+                    $_SESSION['notificao'] = 'Usuário Bloqueado!';
+                } else{
+                    if($_SESSION['funcao'] == 0){
+                        header('Location: ' . BASE_URL . 'ordemServico/listaOrdemServico');          
+                    } else if($_SESSION['funcao'] == 1){
+                        header('Location: ' . BASE_URL . 'dashboard');
+                    } else if($_SESSION['funcao'] == 2){
+                        header('Location: ' . BASE_URL . 'usuario');
+                    }
                 }
             } else {
-                ?>
-                <div class="alert alert-danger">
-                    Usuário e/ou Senha errados!
-                </div>
-                <?php
+                
+                $_SESSION['notificao'] = 'Dados incorretos!';
             }
         }
 

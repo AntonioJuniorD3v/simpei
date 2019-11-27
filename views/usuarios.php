@@ -18,7 +18,7 @@
 
     <!-- Modal Cadastrar -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Cadastrar Usuário</h5>
@@ -28,23 +28,23 @@
           </div>
           <div class="modal-body">
             <form method="POST" class="row" action="<?php echo BASE_URL ?>usuario/cadastrar">
-              <div class="form-group col-6">
+              <div class="form-group col-8">
                 <label for="recipient-name" class="col-form-label">Nome:</label>
                 <input type="text" class="form-control" name="nome" id="recipient-name">
               </div>
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Usuário:</label>
                 <input type="text" class="form-control" name="usuario" id="recipient-name">
               </div>
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Senha:</label>
                 <input type="password" class="form-control" name="senha" id="recipient-name">
               </div>
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Matricula:</label>
                 <input type="number" class="form-control" name="matricula" id="recipient-name">
               </div>
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Função:</label>
                 <select class="form-control" name="funcao" id="exampleFormControlSelect1">
                   <option>Analista</option>
@@ -62,7 +62,7 @@
 
     <!-- Modal Editar -->
     <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Editar Usuário</h5>
@@ -73,30 +73,30 @@
           <div class="modal-body">
           <form method="POST" class="row" action="<?php echo BASE_URL ?>usuario/editar">
           <input type="text" class="form-control" name="id" id="id" hidden>
-               <div class="form-group col-6">
+               <div class="form-group col-8">
                 <label for="recipient-name" class="col-form-label">Nome:</label>
                 <input type="text" class="form-control" name="nome" id="nome">
               </div>
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Usuário:</label>
                 <input type="text" class="form-control" name="usuario" id="usuario">
               </div>
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Senha:</label>
                 <input type="password" class="form-control" name="senha" id="senha">
               </div>
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Matricula:</label>
                 <input type="number" class="form-control" name="matricula" id="matricula">
               </div>
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Função:</label>
                 <select class="form-control" name="funcao" id="funcao">
                   <option>Analista</option>
                   <option>Técnico</option>
                 </select>
               </div>
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Estado:</label>
                 <select class="form-control" name="estado" id="estado">
                   <option>Ativado</option>
@@ -114,7 +114,7 @@
 
     <!-- Modal Desativar -->
     <div class="modal fade" id="modalDesativar" tabindex="-1" role="dialog" aria-labelledby="modalDesativar" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Tem certeza que deseja desativar?</h5>
@@ -132,20 +132,14 @@
         </div>
       </div>
     </div>
-
     <!-- Main content -->
     <section class="content">
 
       <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Controle de Usuários</h3>
-          <div class="card-tools">
 
-          </div>
-        </div>
         <!-- /.card-header -->
-        <div class="card-body p-0" style="overflow: auto; " >
-          <table class="table table-striped">
+        <div class="card-body p-0" style="margin:10px;" >
+          <table class="table table-striped" id="tabelaUsuarios">
             <thead>
               <tr>
                 <th>Usuário</th>
@@ -156,9 +150,10 @@
                 <th style="width: 40px">Ações</th>
               </tr>
             </thead>
+
             <tbody id="resultado">
               <?php foreach ($viewData as $data) { ?>
-                <tr >
+                <tr>
                     <td><?php echo $data['usuario'] ?></td>
                     <td><?php echo $data['nome'] ?></td>
                     <td><?php echo $data['matricula'] ?></td>
@@ -174,10 +169,10 @@
                     </td>
                     <td>
                       <div class="">
-                        <?php if ($data['estado'] == 1) { ?>
+                        <?php if ($data['ativo'] == 1) { ?>
                           <span class="badge bg-success">Ativo</span>
                         <?php } ?>
-                        <?php if ($data['estado'] == 0) { ?>
+                        <?php if ($data['ativo'] == 0) { ?>
                           <span class="badge bg-danger">Desativado</span>
                         <?php } ?>
                       </div>

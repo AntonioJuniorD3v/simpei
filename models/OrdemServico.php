@@ -1,7 +1,7 @@
 <?php
 class OrdemServico extends model {
 
-	public function salvar($resumo, $idEquipamento, $tipoManutencao, $estadoEquipamento, $prioridade, $idSetor, $dataFinal, $descricao) {
+	public function criar($resumo, $idEquipamento, $tipoManutencao, $estadoEquipamento, $prioridade, $idSetor, $dataFinal, $descricao) {
 
 		$sql = $this->db->prepare("INSERT INTO ordem_servico SET resumo = :resumo, idEquipamento = :idEquipamento, idAnalista = :idAnalista, tipoManutencao = :tipoManutencao, estadoEquipamento = :estadoEquipamento, prioridade = :prioridade, idSetor = :idSetor, dataFinal = :dataFinal, dataInicial = now(), status = 'Nova' ");
 		$sql->bindValue(":resumo", $resumo);
@@ -26,7 +26,7 @@ class OrdemServico extends model {
 		$sql->execute();
 	}
 
-	public function getAllOrdemServico(){
+	public function getOrdensServico(){
 		if($_SESSION['funcao'] == 0){
 			$sql = $this->db->prepare("
 				SELECT *, DATE_FORMAT(dataInicial,'%d/%m/%Y %H:%i:%s'), DATE_FORMAT(dataFinal,'%d/%m/%Y') FROM ordem_servico o 
@@ -66,21 +66,6 @@ class OrdemServico extends model {
 		return $row;
 	}
 
-	public function getDescricaoById($id){
-
-		$sql = $this->db->prepare("SELECT * FROM descricao d
-			INNER JOIN usuarios u ON d.idUsuario = u.id
-			INNER JOIN ordem_servico o ON d.idOrdemServico = o.id 
-			WHERE idOrdemServico = :id ORDER BY d.data DESC" 
-		);
-
-		$sql->bindValue(":id", $id);
-		$sql->execute();
-		$row = $sql->fetchAll();
-
-		return $row;
-	}
-
 	public function salvarProcessamento($idTecnico, $descricao, $idOrdemServico, $status) {
 
 		$sql = $this->db->prepare("UPDATE ordem_servico SET idTecnico = :idTecnico, status = :status WHERE id = :idOrdemServico");
@@ -104,7 +89,6 @@ class OrdemServico extends model {
 		$sql->bindValue(":idTecnico", $idTecnico);
 		$sql->bindValue(":status", $status);
 		$sql->bindValue(":idOrdemServico", $idOrdemServico);
-
 		$sql->execute();
 
 		if(!empty($descricao)){
@@ -122,7 +106,6 @@ class OrdemServico extends model {
 		$sql->bindValue(":proximaManutencaoPreditiva", $proximaManutencaoPreditiva);
 		$sql->execute();
 
-		echo $proximaManutencaoPreditiva;
 		exit;
 	}
 
@@ -132,7 +115,6 @@ class OrdemServico extends model {
 		$sql->bindValue(":idTecnico", $idTecnico);
 		$sql->bindValue(":status", $status);
 		$sql->bindValue(":idOrdemServico", $idOrdemServico);
-
 		$sql->execute();
 
 		if(!empty($descricao)){
@@ -177,8 +159,6 @@ class OrdemServico extends model {
 									WHERE DATE(o.dataInicial) BETWEEN :dataInicial AND :dataFinal 										
 							   		$aux								   
 								   	ORDER BY o.datainicial ASC");
-		// print_r($sql);
-		// exit;
 
 		if($equipeTecnica != 'Todas equipes'){
 			$sql->bindValue(":equipeTecnica", $equipeTecnica);
@@ -207,43 +187,41 @@ class OrdemServico extends model {
 									INNER JOIN usuarios u ON o.idTecnico = u.id 
 									INNER JOIN equipamentos e ON o.idEquipamento = e.idEquipamento 
 									INNER JOIN usuarios a ON o.idAnalista = a.id 
-									WHERE o.idEquipamento = :idEquipamento ");
+									WHERE o.idEquipamento = :idEquipamento ORDER BY o.dataInicial DESC");
 		$sql->bindValue(":idEquipamento", $idEquipamento);
 		$sql->execute();
 		$row = $sql->fetchAll();
+		
 		return $row;
 	}
 
-	public function getOrdemServicoAberta() {
+	public function getTotalOrdemServicoEmAberto() {
 
 		$sql = $this->db->prepare("	SELECT * FROM ordem_servico WHERE status != 'validado' ");
 		$sql->execute();
 		$row = $sql->fetchAll();
+		
 		return count($row);
-
 	}
-
 	
-	public function getOrdemServicoEmValidacao() {
+	public function getTotalOrdemServicoEmValidacao() {
 
 		$sql = $this->db->prepare("	SELECT * FROM ordem_servico WHERE status = 'Em validação' ");
 		$sql->execute();
 		$row = $sql->fetchAll();
-		return count($row);
 
+		return count($row);
 	}
 
-	public function getOrdemServicoUltimosSeteDias($dataInicial, $dataFinal) {
+	public function getOrdensServicosUltimosSeteDias($dataInicial, $dataFinal) {
 
 		$sql = $this->db->prepare("	SELECT DATE(dataInicial) FROM ordem_servico WHERE dataInicial BETWEEN :dataInicial AND :dataFinal ");
 		$sql->bindValue(":dataInicial", $dataInicial);
 		$sql->bindValue(":dataFinal", $dataFinal);
-
 		$sql->execute();
 		$row = $sql->fetchAll();
+		
 		return $row;
-
 	}
-
 	
 }

@@ -1,7 +1,7 @@
 <?php
 class Equipamentos extends model {
 
-	public function addEquipamento($nome, $modelo, $patrimonio, $estado, $periodoPreditiva, $periodoPreventiva, $checklistPreditiva, $checklistPreventiva, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva) {
+	public function cadastrar($nome, $modelo, $patrimonio, $estado, $periodoPreditiva, $periodoPreventiva, $checklistPreditiva, $checklistPreventiva, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva) {
 
 		$sql = $this->db->prepare(	"INSERT INTO equipamentos SET nome = :nome, modelo = :modelo, patrimonio = :patrimonio,
 									periodoPreditiva = :periodoPreditiva, periodoPreventiva = :periodoPreventiva, checklistPreditiva = :checklistPreditiva,
@@ -24,21 +24,7 @@ class Equipamentos extends model {
 		$sql->execute();
 	}
 
-	public function getEquipamentos(){
-		$sql = $this->db->prepare("SELECT * FROM equipamentos");
-		$sql->execute();
-		$row = $sql->fetchAll();
-
-		return $row;
-	}
-
-	public function desativarEquipamento($id){
-		$sql = $this->db->prepare("UPDATE equipamentos SET estado = 'Desativado' WHERE idEquipamento = :id");
-		$sql->bindValue(":id", $id);
-		$sql->execute();
-	}
-
-	public function editarEquipamento($id, $nome, $modelo, $patrimonio, $estado, $periodoPreditiva, $periodoPreventiva, $checklistPreditiva, $checklistPreventiva, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva){
+	public function editar($id, $nome, $modelo, $patrimonio, $estado, $periodoPreditiva, $periodoPreventiva, $checklistPreditiva, $checklistPreventiva, $ultimaManutencaoPreditiva, $proximaManutencaoPreditiva, $ultimaManutencaoPreventiva, $proximaManutencaoPreventiva){
 		$sql = $this->db->prepare(	"UPDATE equipamentos SET nome = :nome, modelo = :modelo, patrimonio = :patrimonio,
 									periodoPreditiva = :periodoPreditiva, periodoPreventiva = :periodoPreventiva, checklistPreditiva = :checklistPreditiva,
 									checklistPreventiva = :checklistPreventiva, ultimaManutencaoPreditiva = :ultimaManutencaoPreditiva,
@@ -59,7 +45,20 @@ class Equipamentos extends model {
 		$sql->bindValue(":proximaManutencaoPreventiva", $proximaManutencaoPreventiva);
 
 		$sql->execute();
+	}
 
+	public function desativar($id){
+		$sql = $this->db->prepare("UPDATE equipamentos SET estado = 'Desativado' WHERE idEquipamento = :id");
+		$sql->bindValue(":id", $id);
+		$sql->execute();
+	}
+
+	public function getEquipamentos(){
+		$sql = $this->db->prepare("SELECT * FROM equipamentos");
+		$sql->execute();
+		$row = $sql->fetchAll();
+
+		return $row;
 	}
 
 	public function buscarEquipamento($texto){
@@ -71,11 +70,6 @@ class Equipamentos extends model {
 		$row = $sql->fetchAll();
 
 		return $row;
-		// if ($sql->rowCount() > 0) {
-
-		// 	return $sql;
-			
-		// }
 	}
 
 	public function getEquipamentosEmManutencao(){

@@ -32,14 +32,14 @@
               </div>
               <div class="form-group col-4">
                 <label for="message-text" class="col-form-label">Modelo:</label>
-                <input type="text" class="form-control" name="modelo" id="recipient-name" required>
+                <input type="text" class="form-control" name="modelo" id="recipient-name" maxleght="10" required>
               </div>
             </div>
 
             <div class="row">
               <div class="form-group col-5">
                 <label for="recipient-name" class="col-form-label">Patrimonio:</label>
-                <input type="number" class="form-control" name="patrimonio" id="recipient-name" required>
+                <input type="number" class="form-control" name="patrimonio" id="patrimonioInput"  minlength="11" maxlength="11" pattern="[0-9]*"  required>
               </div>
               <div class="form-group col-7">
                 <label for="message-text" class="col-form-label">Estado:</label>
@@ -204,20 +204,10 @@
     <section class="content">
 
       <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Controle de Equipamentos</h3>
-          <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 200px;">
-              <input type="text" name="table_search" class="form-control float-right" placeholder="Pesquisar" id="busca">
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
+
         <!-- /.card-header -->
-        <div class="card-body p-0" style="overflow: auto; " >
-          <table class="table table-striped">
+        <div class="card-body p-0" style="margin:10px;" >
+          <table class="table table-striped" id="example">
             <thead>
               <tr>
                 <th style="width: 10px">Cód.</th>
@@ -231,7 +221,8 @@
               </tr>
             </thead>
             <tbody id="resultado">
-              <?php foreach ($viewData as $data) { ?>
+                <?php foreach($viewData as $data){ ?>
+
                 <tr >
                     <td><?php echo $data['idEquipamento'] ?></td>
                     <td><a href="equipamento/detalhesEquipamento?id=<?php echo $data['idEquipamento'] ?>" ><?php echo $data['nome'] ?></a></td>
@@ -273,6 +264,7 @@
               <?php } ?>
             </tbody>
           </table>
+
         </div>
         <!-- /.card-body -->
       </div>

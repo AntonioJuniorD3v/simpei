@@ -21,7 +21,7 @@
             <!-- timeline time label -->
             <li class="time-label">
                   <span class="bg-red">
-                    <?php echo $e[37] ?>
+                    <?php echo $e[48] ?>
                   </span>
             </li>
             <!-- /.timeline-label -->
@@ -58,7 +58,7 @@
                     <div class="info-box bg-light">
                       <div class="info-box-content">
                         <span class="info-box-text text-center text-muted">Analista</span>
-                        <span class="info-box-number text-center text-muted mb-0"><?php echo $e[30] ?> <span>
+                        <span class="info-box-number text-center text-muted mb-0"><?php echo $e['nome'] ?> <span>
                       </span></span></div>
                     </div>
                   </div>
@@ -66,7 +66,7 @@
                     <div class="info-box bg-light">
                       <div class="info-box-content">
                         <span class="info-box-text text-center text-muted">Técnico</span>
-                        <span class="info-box-number text-center text-muted mb-0"><?php echo $e[15] ?> <span>
+                        <span class="info-box-number text-center text-muted mb-0"><?php echo $e[17] ?> <span>
                       </span></span></div>
                     </div>
                 </div>
@@ -78,32 +78,34 @@
                   <div class="col-12 ">
 
                     <h4>Comentários:</h4>
+                    <div class="col-md-12">
+            <!-- Box Comment -->
+            <div class="card card-widget">
+              
+              <!-- /.card-header -->
+         
+              <!-- /.card-body -->
+              <div class="card-footer card-comments">
+                <?php foreach($viewData[$key]['descricao'] as $d){ ?>
+                  <div class="card-comment">
+                    <!-- User image -->
 
-                    <div class="col-12 col-sm-12">
-                      <div class="info-box bg-light">
-                      <div class="info-box-content col-12">
-
-                        <?php foreach($viewData[$key]['descricao'] as $d){ ?>
-
-                          <div class="post col-12">
-                            <div class=" col-5">
-                              <span class="username">
-                                <h5><?php echo $d['nome'] ?></h5>
-                              </span>
-                            </div>
-
-                            <div class="m-100 col-8" style="margin-left:15px;">
-                              <!-- /.user-block -->
-                              <p >
-                              - <?php echo $d['descricao'] ?>
-                              </p>
-                            </div>
-                          </div>
-                          
-                        <?php } ?>
-                          </div>
-                      </div>
+                    <div class="comment-text m-0">
+                      <span class="username">
+                      <?php echo $d['nome'] ?>
+                        <span class="text-muted float-right"><?php echo $d['data'] ?></span>
+                      </span><!-- /.username -->
+                      <?php echo $d['descricao'] ?>
                     </div>
+                    <!-- /.comment-text -->
+                  </div>
+                <?php } ?>
+              </div>
+
+            </div>
+            <!-- /.card -->
+          </div>
+         
                   </div>
                 </div>
               </div>

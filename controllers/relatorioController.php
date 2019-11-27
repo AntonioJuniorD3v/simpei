@@ -51,11 +51,6 @@ class relatorioController extends controller {
 	function __construct(){
 		$this->isLogged();
     }
-    
-    public function index(){
-        $this->loadTemplate('meus-anuncios');
-
-    }
 
     public function ordemServico(){
         $s = new Setor();
@@ -70,7 +65,7 @@ class relatorioController extends controller {
             $dados['relatorio'] = $_SESSION['relatorioOrdemServico'];
         }
 
-
+		$_SESSION['activeMenu'] = 'relatorios';
         $this->loadTemplate('relatorio', $dados);
     }
 
